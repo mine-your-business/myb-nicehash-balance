@@ -1,0 +1,2 @@
+# myb-nicehash-balance
+ 
