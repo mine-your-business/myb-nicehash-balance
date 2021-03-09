@@ -1,0 +1,4 @@
+myb-nicehash-api>=1.0.0
+# For getting BTC prices in Fiat from Coindesk
+myb-coindesk-api>=1.0.0
+myb-newrelic-api>=1.0.0

@@ -1,0 +1,43 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  myb-nicehash-balance
+
+  Serverless capability for fetching and reporting NiceHash account balance
+
+Resources:
+  # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+  NiceHashBtcBalFn:
+    Type: AWS::Serverless::Function 
+    Properties:
+      CodeUri: nicehash_btc_bal_function
+      Handler: nicehash_btc_bal.app.lambda_handler
+      Runtime: python3.8
+      Timeout: 10
+      Environment:
+        Variables:
+          # If RUN_MODE is 'test', runs in test mode
+          RUN_MODE: "production"
+          # https://docs.nicehash.com/
+          NICE_HASH_ORG_ID: '{{resolve:ssm:/nice_hash/organization_id:1}}'
+          NICE_HASH_WALLET_API_KEY: '{{resolve:ssm:/nice_hash/api_keys/wallet/key:1}}'
+          NICE_HASH_WALLET_API_SECRET: '{{resolve:ssm:/nice_hash/api_keys/wallet/secret:1}}'
+          NICE_HASH_MINING_API_KEY: '{{resolve:ssm:/nice_hash/api_keys/mining/key:1}}'
+          NICE_HASH_MINING_API_SECRET: '{{resolve:ssm:/nice_hash/api_keys/mining/secret:1}}'
+          NICE_HASH_API_URL: https://api2.nicehash.com
+          NICE_HASH_CRYPTOCURRENCY: BTC
+          # https://newrelic.com/
+          NEWRELIC_ACCOUNT_ID: '{{resolve:ssm:/newrelic/account_id:1}}'
+          NEWRELIC_INSIGHTS_INSERT_API_KEY: '{{resolve:ssm:/newrelic/insights/insert_api_key:1}}'
+          NEWRELIC_INSIGHTS_QUERY_API_URL: https://insights-api.newrelic.com
+          NEWRELIC_INSIGHTS_INSERT_API_URL: https://insights-collector.newrelic.com
+          COINDESK_API_URL: https://api.coindesk.com
+          COINDESK_CURRENCY: USD
+      Events:
+        CWSchedule:
+          Type: Schedule
+          Properties:
+            Schedule: cron(0/15 * * * ? *)
+            Name: NiceHashBtcBalSchedule
+            Description: execution schedule for reporting the Nice Hash BTC balance
+            Enabled: True
