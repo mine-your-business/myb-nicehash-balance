@@ -22,8 +22,6 @@ Resources:
           NICE_HASH_ORG_ID: '{{resolve:ssm:/nice_hash/organization_id:1}}'
           NICE_HASH_WALLET_API_KEY: '{{resolve:ssm:/nice_hash/api_keys/wallet/key:1}}'
           NICE_HASH_WALLET_API_SECRET: '{{resolve:ssm:/nice_hash/api_keys/wallet/secret:1}}'
-          NICE_HASH_MINING_API_KEY: '{{resolve:ssm:/nice_hash/api_keys/mining/key:1}}'
-          NICE_HASH_MINING_API_SECRET: '{{resolve:ssm:/nice_hash/api_keys/mining/secret:1}}'
           NICE_HASH_API_URL: https://api2.nicehash.com
           NICE_HASH_CRYPTOCURRENCY: BTC
           # https://newrelic.com/
